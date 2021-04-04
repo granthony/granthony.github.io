@@ -9,7 +9,7 @@
 </head>
 <body>
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play House Of Hell.</tw-noscript></noscript></tw-story>
-<tw-storydata name="House Of Hell" startnode="416" creator="Twine" creator-version="2.3.13" ifid="625BB558-2BA5-4F56-B8CF-0E5266D9A770" zoom="0.25" format="Harlowe" format-version="3.2.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">body, tw-story, tw-sidebar {
+<tw-storydata name="House Of Hell" startnode="416" creator="Twine" creator-version="2.3.13" ifid="625BB558-2BA5-4F56-B8CF-0E5266D9A770" zoom="1" format="Harlowe" format-version="3.2.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">body, tw-story, tw-sidebar {
   font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
@@ -18,6 +18,10 @@ tw-sidebar {
     left: -15em;
     width: 12.5em;
     text-align: left;
+}
+
+tw-sidebar [name="meter"]+br {
+    display: none;
 }
 
 tw-story {
@@ -830,6 +834,7 @@ The procedure for using your Luck is as follows: roll two dice. If the number ro
 This procedure is known as &lt;i&gt;Testing your Luck&lt;/i&gt;. Each time you &lt;i&gt;Test your Luck&lt;/i&gt;, you must subtract one point from your current LUCK score. Thus you will soon realize that the more you rely on your luck, the more risky this will become.
 [[Return to title screen-&gt;TITLE]] / [[Continue-&gt;Instructions 5]]</tw-passagedata><tw-passagedata pid="421" name="Notes 1" tags="" position="975,2679" size="100,100">&lt;i&gt;House of Hell&lt;/i&gt; is #10 in the &lt;i&gt;Fighting Fantasy&lt;/i&gt; series, first published in 1984. It&#39;s Steve Jackson&#39;s third solo title in the series, after &lt;i&gt;Citadel of Chaos&lt;/i&gt; and &lt;i&gt;Starship Traveller&lt;/i&gt; - his later installments also include &lt;i&gt;Appointment with F.E.A.R.&lt;/i&gt; and &lt;i&gt;Creature of Havoc&lt;/i&gt;, regarded as some of the series&#39;s best... and most difficult.
 It&#39;s this famed difficulty level that has prompted me to implement House of Hell in Twine format; and it can&#39;t be denied, this is an unforgiving adventure.  To find the correct path requires following an obscure sequence of events with little apparent logic, and with astonishingly little room for manouevre.  At any stage, it may be possible to find yourself on an incorrect path, with no indication given that the game has become unwinnable.
+The one concession I&#39;ve made to making the game easier is to increase the FEAR stat roll from 1d6+6 to 1d6+9.  Leaving it as printed means that a third of games are unwinnable before they are even started.
 By design, this game is intended to be won only by repeated play-throughs, careful note-taking and plenty of trial-and-error.  In this spirit, there is no general &#39;undo&#39; function except in certain &quot;instadeath&quot; passages where you get the option of undoing a single turn (which may or may not be enough to actually save you.) &lt;i&gt;Updated&lt;/i&gt; - I&#39;ve added an optional save mode.  There&#39;s only one save slot, so you can&#39;t save-scum too badly.  I think this is a reasonable compromise...
 [[Are you having fun yet?-&gt;Notes 2]]
 [[Return to the title page-&gt;TITLE]]</tw-passagedata><tw-passagedata pid="422" name="Notes 2" tags="" position="992,2843" size="100,100">While I&#39;ve tried to be faithful to the original book, I&#39;ve not been too precious about adapting the text to fit the different requirements of the Twine medium.  For example, text such as &quot;There is a door here.  If you wish to enter, turn to 100&quot; might become simply &quot;There is a (link-repeat:&quot;door&quot;)[(dialog:&quot;...and clicking the link would take you to Page 100.&quot;)] here.&quot;
@@ -839,18 +844,10 @@ By design, this game is intended to be won only by repeated play-throughs, caref
 	(if: $monster&#39;s strikes is 2 and (passage:)&#39;s name is not &quot;Page 186&quot;)[(goto:&quot;Page 186&quot;)] \
 	(elseif: $monster&#39;s strikes is 4)[(set: $player&#39;s stamina to 0)] \
 ]</tw-passagedata><tw-passagedata pid="424" name="HUNCHBACK LIMIT" tags="" position="6286,3356" size="100,100">(if: $monster&#39;s strikes + $monster&#39;s wounds is 3 and (passage:)&#39;s name is &quot;Page 56&quot;)[(goto:&quot;Page 72&quot;)]</tw-passagedata><tw-passagedata pid="425" name="Page 190" tags="" position="1241,1604" size="100,100">You knock loudly and watch the window. A few seconds later, the two men reappear and light the candles. The older man walks towards the [[door-&gt;Page 207]].</tw-passagedata><tw-passagedata pid="426" name="Notes 3" tags="" position="958,3000" size="100,100">TODO:
-~~The fight with the Fire Sprites - special fire damage rules.~~
-Full proof-read, get rid of the OCR errors.
-&quot;Escape from battle&quot;, for those fights that have it.
-~~Page 31: &quot;But because you are at a disadvantage, having fallen over, you must deduct 2 from your Attack Strength for the first four Attack Rounds.&quot;  This will be awkward, oh well.~~
-~~&quot;Test Your Luck&quot; macro needs to be rewritten as something other than a macro.~~  Mostly done, I think.
-The whole &quot;search for secret doors&quot; tag needs to be redone.
+Full proof-read. OCR errors remain.
 KNOWN BUGS
-If you die of fear on the same page as a battle, the battle ~~will~~ &lt;i&gt;may&lt;/i&gt; still run.  ~~This means it&#39;s possible to win the game, &lt;i&gt;then&lt;/i&gt; see &quot;You died of fright&quot;.~~ (This is because I made liberal use of unclosed hidden hooks, without realizing that they prevent FOOTER passages from running.)
-It&#39;s not possible to &quot;Test Your Luck&quot; to reduce damage against a blow that otherwise kills you (you just die.)
-~~&quot;Test your luck&quot; macro is bugged - there&#39;s some display glitches, sometimes you have to click the dialog box twice, etc.~~  Hopefully mostly done.
-There&#39;s a JS console error, I don&#39;t know what&#39;s causing it.
-PLANNED FEATURES I PROBABLY WON&#39;T EVER GET AROUND TO:
+It&#39;s not possible to &quot;Test Your Luck&quot; to reduce damage from a blow that otherwise kills you (you just die.)  This doesn&#39;t bother me enough to fix it.
+PLANNED FEATURES I ~~PROBABLY~~ *DEFINITELY* WON&#39;T EVER GET AROUND TO:
 Hints
 Cheat mode (skip battles, reroll failed checks, etc.)
 MST3K commentary track
@@ -897,6 +894,7 @@ v0.0.1-alpha - All page references are (hopefully) complete and correctly linked
 }]&lt;/li&gt;</tw-passagedata><tw-passagedata pid="429" name="Instructions" tags="" position="749,2766" size="100,100">&lt;center&gt;&lt;b&gt;Instructions&lt;/b&gt;&lt;/center&gt;
 You can either read the [[original instructions-&gt;Instructions 1]], as printed in the book, or else my [[brief recap]].</tw-passagedata><tw-passagedata pid="430" name="brief recap" tags="" position="726,2986" size="100,100">&lt;center&gt;Instructions in brief&lt;/center&gt;
 Character stats (SKILL, STAMINA, LUCK, FEAR) are tracked automatically, and displayed in the sidebar at left. As you progress, items and weapons in your inventory will also appear here. Weapons you acquire must be wielded (by clicking on them) before they will give you a SKILL increase.
+Various things that happen to you will give you FEAR points; if your FEAR hits your maximum then you, er, die immediately of fright.  Yep.
 Fights are a roll-off: 2d6 + your skill versus 2d6 + your opponent&#39;s skill. Successful hits deal 2 points of STAMINA damage;  ties are re-rolled.  After a hit, you can choose to &quot;Test Your Luck&quot;, to either reduce the damage you&#39;ve taken, or deal additional damage.  If you succeed, you deal 2 additional damage / receive 1 less damage. If you fail, you deal 1 less damage / take 1 additional damage.  (&quot;Testing your luck&quot; requires you to roll less-than-or-equal-to your LUCK score on two dice, and every attempt made reduces your LUCK by 1 point.)
 The above is much more easily understood by just playing the game and getting into some fights!
 [[Return to title screen-&gt;TITLE]]
