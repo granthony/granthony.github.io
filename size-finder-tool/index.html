@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macom size-finder JSON tool</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    html {
+        font-family: sans-serif;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    table, th, td {
+        border: none;
+    }
+    td {
+        padding: 2px 5px;
+    }
+    
+    #json {
+        width: 100%;
+        max-width: 1024px;
+        min-height: 320px;
+    }
+    div {
+        margin: 20px 30px;
+    }
+    
+</style>
+</head>
+<body>
+
+<div id="table-container"></div>
+<div>
+    <p><i>Enter the required values for your size chart into the table above.  The box below will update automatically.</i></p>
+    <textarea id="json"></textarea>
+</div>
+<div><button id="copy">Copy to clipboard</button></div>
+
+<script>
+    var n = 12; // Number of rows
+    var m = 10; // Number of columns
+
+    $(document).ready(function() {
+
+        // Create table element
+        var table = $('<table>');
+
+        // Loop through rows
+        for (var i = 0; i < n; i++) {
+            var tr = $('<tr>');
+            
+            // Loop through columns
+            for (var j = 0; j < m; j++) {
+                var td = $('<td>');
+                if ( i + j > 0) {
+                    // no input in top-left corner
+                    var input = $('<input>').attr('type', 'text').attr('data-row', i).attr('data-column', j);
+                    input.on("change", updateJSON);
+                    td.append(input);
+                }
+                tr.append(td);
+            }
+            
+            table.append(tr);
+        }
+
+        // Append table to container
+        $('#table-container').append(table);
+       
+        $('input[data-row=0]').css('background-color', '#eee');
+        $('input[data-column=0]').css('background-color', '#eee');
+        
+        $('#copy').click(function () {
+            $('#json').select();
+            document.execCommand('copy');
+            $('#json').blur();
+            $('#copy').text('Copied!');
+            setTimeout(function() { $('#copy').text('Copy to clipboard') }, 5000);
+        });
+    });
+    
+    function updateJSON() {
+        var obj = {};
+        for (var i = 1; i < n; i++) {
+            var row = $(`input[data-row=${i}][data-column=0]`).val();
+            for (var j = 1; j < m; j++) {
+                var column = $(`input[data-row=0][data-column=${j}]`).val();
+                var value = $(`input[data-row=${i}][data-column=${j}]`).val();
+
+                if (row && column && value) {
+                    if (!(row in obj)) {
+                        obj[row] = {};
+                    }
+                    
+                    obj[row][column] = value;
+                    
+                }
+                
+            }
+        }
+        $('#json').html(JSON.stringify(obj, undefined, 4));
+    }
+</script>
+
+</body>
+</html>
