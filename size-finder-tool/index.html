@@ -103,7 +103,10 @@
                 
             }
         }
-        $('#json').html(JSON.stringify(obj, undefined, 4));
+        if (!$.isEmptyObject(obj)) {
+	    obj = { "regular": obj };
+            $('#json').html(JSON.stringify(obj, undefined, 4));
+	}
     }
 </script>
 
